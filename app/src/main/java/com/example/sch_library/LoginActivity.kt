@@ -19,9 +19,16 @@ class LoginActivity : AppCompatActivity() {
 
         val buttonLogin: Button = findViewById(R.id.button_login)
         buttonLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("id", loginId.editableText.toString())
-            intent.putExtra("pw", loginPw.editableText.toString())
+            val id = loginId.editableText.toString()
+            val pw = loginPw.editableText.toString()
+            // DB 검증
+            if (id == "admin") {     // 관리자
+                val intent = Intent(this, AdminActivity::class.java)
+            } else {    // 회원
+                val intent = Intent(this, UserActivity::class.java)
+                intent.putExtra("id", id)
+                intent.putExtra("pw", pw)
+            }
             startActivity(intent)
         }
 
