@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginVertical="80dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCH"
+            android:textSize="80sp"
+            android:textColor="@color/purple_500"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Library"
+            android:textSize="80sp"
+            android:textColor="@color/purple_500"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edittext_id"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@drawable/edittext_border"
+        android:inputType="text"
+        android:hint="아이디를 입력하세요"
+        android:textColorHint="@color/purple_200"
+        android:textColor="@color/purple_200"/>
+
+    <EditText
+        android:id="@+id/edittext_pw"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="30dp"
+        android:gravity="center"
+        android:background="@drawable/edittext_border"
+        android:inputType="textPassword"
+        android:hint="비밀번호를 입력하세요"
+        android:textColorHint="@color/purple_200"
+        android:textColor="@color/purple_200"/>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인"/>
+
+    <Button
+        android:id="@+id/button_go_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"/>
+
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_baseline_menu_book_24"
+        android:title="도서목록" />
+
+    <item
+        android:id="@+id/menu_basket"
+        android:icon="@drawable/ic_baseline_shopping_basket_24"
+        android:title="장바구니"/>
+
+    <item
+        android:id="@+id/menu_info_manage"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="회원정보관리"/>
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="로그아웃"/>
+
+</menu>
