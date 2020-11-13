@@ -1,15 +1,27 @@
 package com.example.sch_library
 
 import android.os.Bundle
+<<<<<<< HEAD
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+=======
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class UserActivity : AppCompatActivity() {
+<<<<<<< HEAD
+=======
+    lateinit var searchView: SearchView
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
     lateinit var viewPager: ViewPager
     lateinit var bottomNavigationView: BottomNavigationView
 
@@ -22,12 +34,21 @@ class UserActivity : AppCompatActivity() {
         val fragmentInfoManage = InfoManageFragment()
         val fragmentLogout = LogoutFragment()
 
+<<<<<<< HEAD
         val fm = supportFragmentManager
         val adapter = ViewPagerAdapter(fm)
+=======
+        searchView = findViewById(R.id.searchview)
+
+        viewPager = findViewById(R.id.viewpager)
+        viewPager.offscreenPageLimit = 4
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
         adapter.addItem(fragmentHome)
         adapter.addItem(fragmentBasket)
         adapter.addItem(fragmentInfoManage)
         adapter.addItem(fragmentLogout)
+<<<<<<< HEAD
 
         viewPager = findViewById<ViewPager>(R.id.viewpager).apply {
             offscreenPageLimit = 4
@@ -49,6 +70,9 @@ class UserActivity : AppCompatActivity() {
                 override fun onPageScrollStateChanged(state: Int) { }
             })
         }
+=======
+        viewPager.adapter = adapter
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
 
         bottomNavigationView = findViewById(R.id.bottomnavigationview)
         bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -69,12 +93,21 @@ class UserActivity : AppCompatActivity() {
                     viewPager.currentItem = 3
                     true
                 }
+<<<<<<< HEAD
                 else -> false
             }
         }
     }
 
     class ViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+=======
+            }
+            false
+        }
+    }
+
+    class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
         private val items = ArrayList<Fragment>()
 
         fun addItem(item: Fragment) { items.add(item) }

@@ -1,5 +1,6 @@
 package com.example.sch_library
 
+<<<<<<< HEAD
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,4 +41,9 @@ class HomeFragment : Fragment() {
 
         return view
     }
+=======
+import androidx.fragment.app.Fragment
+
+class HomeFragment : Fragment() {
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
 }

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
@@ -12,6 +13,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+=======
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/searchview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/viewpager"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintTop_toBottomOf="@id/searchview"
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
         app:layout_constraintBottom_toTopOf="@id/bottomnavigationview"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,6 +47,10 @@
         app:layout_constraintTop_toBottomOf="@id/viewpager"
         app:itemBackground="@color/white"
         app:itemTextColor="@color/purple_700"
+<<<<<<< HEAD
         app:menu="@menu/menu_bottom" />
+=======
+        app:menu="@menu/menu_bottom"/>
+>>>>>>> 72ce08b77bda28f29da7a4371941cf529d43e961
 
 </androidx.constraintlayout.widget.ConstraintLayout>
