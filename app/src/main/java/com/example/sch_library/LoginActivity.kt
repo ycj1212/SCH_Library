@@ -21,11 +21,13 @@ class LoginActivity : AppCompatActivity() {
         buttonLogin.setOnClickListener {
             val id = loginId.editableText.toString()
             val pw = loginPw.editableText.toString()
+            var intent: Intent? = null
             // DB 검증
             if (id == "admin") {     // 관리자
-                val intent = Intent(this, AdminActivity::class.java)
+                intent = Intent(this, AdminActivity::class.java)
             } else {    // 회원
-                val intent = Intent(this, UserActivity::class.java)
+                println("여기")
+                intent = Intent(this, UserActivity::class.java)
                 intent.putExtra("id", id)
                 intent.putExtra("pw", pw)
             }
@@ -39,3 +41,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+
