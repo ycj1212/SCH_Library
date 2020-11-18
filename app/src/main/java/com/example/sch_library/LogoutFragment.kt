@@ -13,6 +13,13 @@ class LogoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_logout, container, false)
+        val view = inflater.inflate(R.layout.fragment_logout, container, false)
+
+        val logoutButton: Button = view.findViewById(R.id.button_logout)
+        logoutButton.setOnClickListener {
+            activity?.finish()
+        }
+
+        return view
     }
 }

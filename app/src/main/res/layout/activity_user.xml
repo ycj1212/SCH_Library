@@ -24,6 +24,6 @@
         app:layout_constraintTop_toBottomOf="@id/viewpager"
         app:itemBackground="@color/white"
         app:itemTextColor="@color/purple_700"
-        app:menu="@menu/menu_bottom" />
+        app:menu="@menu/menu_bottom_user" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

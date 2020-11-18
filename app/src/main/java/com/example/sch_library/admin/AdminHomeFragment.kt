@@ -1,16 +1,21 @@
-package com.example.sch_library
+package com.example.sch_library.admin
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sch_library.BookInfo
+import com.example.sch_library.R
+import com.example.sch_library.ViewAdapter
 
-class HomeFragment : Fragment() {
+lateinit var viewAdapter: ViewAdapter
+
+class AdminHomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: ViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
@@ -18,10 +23,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_admin_home, container, false)
+
+        val addButton: Button = view.findViewById(R.id.button_add_book)
+        val deleteButton: Button = view.findViewById(R.id.button_delete_selected)
 
         viewManager = LinearLayoutManager(context)
         viewAdapter = ViewAdapter()
+        viewAdapter.addButtonForAdmin(addButton, deleteButton)
         for (i in 1 until 50) {
             viewAdapter.addItem(BookInfo(i, "책$i", i, i))
         }

@@ -1,4 +1,4 @@
-package com.example.sch_library
+package com.example.sch_library.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sch_library.BookInfo
+import com.example.sch_library.R
+import com.example.sch_library.ViewAdapter
 
 class BasketFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView

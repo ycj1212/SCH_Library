@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_baseline_menu_book_24"
+        android:title="도서목록"
+        android:enabled="true"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_purchace_history"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="회원 별 구매 이력"
+        android:enabled="true"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_order_status"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:title="주문상황"
+        android:enabled="true"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="로그아웃"
+        android:enabled="true"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+</menu>
