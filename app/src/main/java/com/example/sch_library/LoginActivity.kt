@@ -11,14 +11,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sch_library.admin.AdminActivity
 import com.example.sch_library.user.UserActivity
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
-private const val IP_ADDRESS = "IP 주소";
-private const val TAG = "phptest";
+//private const val IP_ADDRESS = "10.0.2.2";              // 에뮬레이터
+const val IP_ADDRESS = "211.250.1.30:8888";   // 집
+//private const val IP_ADDRESS = "220.69.208.114:8888"; // 연구실
+private const val TAG = "Login";
 
 private lateinit var loginId: EditText
 private lateinit var loginPw: EditText
@@ -39,8 +43,8 @@ class LoginActivity : AppCompatActivity() {
             val id = loginId.editableText.toString()
             val pw = loginPw.editableText.toString()
 
-            val task = ConnectAccount(applicationContext)
-            task.execute("http://$IP_ADDRESS/condb.php", id, pw)
+            val task = Login(applicationContext)
+            task.execute("http://$IP_ADDRESS/login.php", id, pw)
         }
 
         val buttonGoSignUp: Button = findViewById(R.id.button_go_signup)
@@ -63,13 +67,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    class ConnectAccount(private val context: Context) : AsyncTask<String, Void, String>() {
-        private var id: String? = null
-        private var pw: String? = null
-
+    class Login(private val context: Context) : AsyncTask<String, Void, String>() {
         override fun doInBackground(vararg p0: String?): String {
-            id = p0[1]
-            pw = p0[2]
+            val id = p0[1]
+            val pw = p0[2]
 
             val serverURL = p0[0]
             val postParameters = "id=$id&pw=$pw"
@@ -84,7 +85,8 @@ class LoginActivity : AppCompatActivity() {
                     connect()
                 }
 
-                val outputStream = httpURLConnection.outputStream.apply {
+                val outputStream = httpURLConnection.outputStream
+                outputStream.apply {
                     write(postParameters.toByteArray())
                     flush()
                     close()
@@ -123,82 +125,34 @@ class LoginActivity : AppCompatActivity() {
             loginId.text.clear()
             loginPw.text.clear()
 
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show()
+            var intent: Intent? = null
 
-            if (result == "") {
-                var intent: Intent? = null
-                // DB 검증
-                if (id == "admin") {     // 관리자
-                    intent = Intent(context, AdminActivity::class.java)
-                } else {    // 회원
-                    intent = Intent(context, UserActivity::class.java)
-                    intent.putExtra("id", id)
-                    intent.putExtra("pw", pw)
+            if (result == "admin") {
+                intent = Intent(context, AdminActivity::class.java)
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            } else {
+                try {
+                    val jsonObject = JSONObject(result)
+                    val jsonArray = jsonObject.getJSONArray("user")
+
+                    val item = jsonArray.getJSONObject(0);
+                    val id = item.getString("id");
+                    val pw = item.getString("pw");
+
+                    if (id != "" && pw != "") {
+                        Toast.makeText(context, "로그인 성공!", Toast.LENGTH_LONG).show()
+
+                        intent = Intent(context, UserActivity::class.java)
+                        intent.putExtra("id", id)
+                        intent.putExtra("pw", pw)
+                        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    } else {
+                        Toast.makeText(context, "로그인 실패!", Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: JSONException) {
+                    Log.d(TAG, "Login: ", e)
                 }
-                context.startActivity(intent)
-            }
-        }
-    }
-
-    class InsertData : AsyncTask<String, Void, String>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-        }
-
-        override fun doInBackground(vararg p0: String?): String {
-            val name = p0[1]
-            val country = p0[2]
-
-            val serverURL = p0[0]
-            val postParameters = "name=$name&country=$country"
-
-            try {
-                val url = URL(serverURL)
-                val httpURLConnection = url.openConnection() as HttpURLConnection
-
-                httpURLConnection.readTimeout = 5000
-                httpURLConnection.connectTimeout = 5000
-                httpURLConnection.requestMethod = "POST"
-                httpURLConnection.connect()
-
-                val outputStream = httpURLConnection.outputStream
-                outputStream.write(postParameters.toByteArray())
-                outputStream.flush()
-                outputStream.close()
-
-                val responseStatusCode = httpURLConnection.responseCode
-                Log.d(TAG, "POST response code - $responseStatusCode")
-
-                val inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    httpURLConnection.inputStream
-                } else {
-                    httpURLConnection.errorStream
-                }
-
-                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
-                val bufferedReader = BufferedReader(inputStreamReader)
-
-                val sb = StringBuilder()
-                var line: String? = null
-
-                line = bufferedReader.readLine()
-                while (line != null) {
-                    sb.append(line)
-                    line = bufferedReader.readLine()
-                }
-
-                bufferedReader.close()
-
-                return sb.toString()
-            } catch (e: Exception) {
-                Log.d(TAG, "InsertData: Error ", e)
-                return "Error: ${e.message}"
             }
         }
     }
 }
-
