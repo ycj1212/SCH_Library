@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ViewAdapter(classification: Int) : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
     private val classification = classification // 0: 관리자, 1: 사용자, 2: 장바구니
-    private val items = ArrayList<BookInfo>()
+    private var items = ArrayList<BookInfo>()
     private var count = 0
 
     private lateinit var addButton: Button
@@ -140,6 +140,12 @@ class ViewAdapter(classification: Int) : RecyclerView.Adapter<ViewAdapter.ViewHo
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun setItems(items: ArrayList<BookInfo>) {
+        this.items = items
+    }
+
+    fun cleanItems() { items.clear() }
 
     fun getTotalPrice(): String {
         var sum = 0

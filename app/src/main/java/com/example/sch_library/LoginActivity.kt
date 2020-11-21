@@ -136,9 +136,10 @@ class LoginActivity : AppCompatActivity() {
                     val jsonObject = JSONObject(result)
                     val jsonArray = jsonObject.getJSONArray("user")
 
-                    val item = jsonArray.getJSONObject(0);
-                    val id = item.getString("id");
-                    val pw = item.getString("pw");
+                    val item = jsonArray.getJSONObject(0)
+                    val id = item.getString("id")
+                    val pw = item.getString("pw")
+                    val name = item.getString("name")
 
                     if (id != "" && pw != "") {
                         Toast.makeText(context, "로그인 성공!", Toast.LENGTH_LONG).show()
@@ -146,6 +147,7 @@ class LoginActivity : AppCompatActivity() {
                         intent = Intent(context, UserActivity::class.java)
                         intent.putExtra("id", id)
                         intent.putExtra("pw", pw)
+                        intent.putExtra("name", name)
                         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                     } else {
                         Toast.makeText(context, "로그인 실패!", Toast.LENGTH_LONG).show()

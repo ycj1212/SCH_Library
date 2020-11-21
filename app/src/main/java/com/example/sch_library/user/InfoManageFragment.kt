@@ -19,12 +19,25 @@ import com.example.sch_library.CardInfo
 import com.example.sch_library.R
 
 class InfoManageFragment : Fragment() {
+    lateinit var userName: EditText
+    lateinit var userId: EditText
+    lateinit var userPw: EditText
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_info_manage, container, false)
+
+        userName = view.findViewById(R.id.edittext_user_name)
+        userId = view.findViewById(R.id.edittext_user_id)
+        userPw = view.findViewById(R.id.edittext_user_pw)
+
+        val bundle = arguments
+        userName.setText(bundle?.getString("name"))
+        userId.setText(bundle?.getString("id"))
+        userPw.setText(bundle?.getString("pw"))
 
         val updateCardButton: Button = view.findViewById(R.id.button_update_card)
         updateCardButton.setOnClickListener {
@@ -34,6 +47,11 @@ class InfoManageFragment : Fragment() {
         val updateAddressButton: Button = view.findViewById(R.id.button_update_address)
         updateAddressButton.setOnClickListener {
             AddressInfoDialog(view).show()
+        }
+
+        val updateUserInfoButton: Button = view.findViewById(R.id.button_update_user_info)
+        updateUserInfoButton.setOnClickListener {
+            // DB update
         }
 
         return view

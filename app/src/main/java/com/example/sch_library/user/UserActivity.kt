@@ -18,10 +18,22 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
+        val intent = intent
+        val id = intent.getStringExtra("id")
+        val pw = intent.getStringExtra("pw")
+        val name = intent.getStringExtra("name")
+
         val fragmentHome = UserHomeFragment()
         val fragmentBasket = BasketFragment()
         val fragmentInfoManage = InfoManageFragment()
         val fragmentLogout = LogoutFragment()
+
+        val bundle = Bundle(3)
+        bundle.putString("id", id)
+        bundle.putString("pw", pw)
+        bundle.putString("name", name)
+        fragmentHome.arguments = bundle
+        fragmentInfoManage.arguments = bundle
 
         val fm = supportFragmentManager
         val adapter = ViewPagerAdapter(fm)
