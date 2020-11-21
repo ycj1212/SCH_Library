@@ -76,11 +76,11 @@ class AdminActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (viewAdapter?.getSelectedCount() == 0) {
+        if (viewAdapter.getSelectedCount() == 0) {
             viewPager.currentItem = 3
         } else {
-            viewAdapter?.clear()
-            viewAdapter?.notifyDataSetChanged()
+            viewAdapter.clear()
+            viewAdapter.notifyDataSetChanged()
         }
     }
 

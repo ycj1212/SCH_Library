@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:background="@drawable/card_info_border"
+    android:clickable="true">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/booknumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="123123124"/>
+
+        <TextView
+            android:id="@+id/booktitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="책 제목입니다."/>
+
+        <TextView
+            android:id="@+id/bookstock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4권 남음"/>
+
+        <TextView
+            android:id="@+id/bookprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="가격: 112323원"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/button_decrease_count"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_baseline_arrow_left_24"/>
+
+    <TextView
+        android:id="@+id/textview_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="20sp"/>
+
+    <ImageButton
+        android:id="@+id/button_increase_count"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_baseline_arrow_right_24"/>
+
+</LinearLayout>

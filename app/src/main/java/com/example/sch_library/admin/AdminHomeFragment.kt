@@ -29,8 +29,8 @@ class AdminHomeFragment : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.button_delete_selected)
 
         viewManager = LinearLayoutManager(context)
-        viewAdapter = ViewAdapter()
-        viewAdapter.addButtonForAdmin(addButton, deleteButton)
+        viewAdapter = ViewAdapter(0)
+        viewAdapter.addViewForAdmin(addButton, deleteButton)
         for (i in 1 until 50) {
             viewAdapter.addItem(BookInfo(i, "책$i", i, i))
         }

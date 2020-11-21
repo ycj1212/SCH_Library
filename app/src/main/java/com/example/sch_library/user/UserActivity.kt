@@ -76,7 +76,12 @@ class UserActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        viewPager.currentItem = 3
+        if (viewAdapter.getSelectedCount() == 0) {
+            viewPager.currentItem = 3
+        } else {
+            viewAdapter.clear()
+            viewAdapter.notifyDataSetChanged()
+        }
     }
 
     class ViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

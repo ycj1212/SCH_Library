@@ -19,10 +19,11 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
-//private const val IP_ADDRESS = "10.0.2.2";              // 에뮬레이터
-const val IP_ADDRESS = "211.250.1.30:8888";   // 집
-//private const val IP_ADDRESS = "220.69.208.114:8888"; // 연구실
-private const val TAG = "Login";
+//private const val IP_ADDRESS = "10.0.2.2"              // 에뮬레이터
+const val IP_ADDRESS = "211.250.1.30:8888"   // 집
+//private const val IP_ADDRESS = "220.69.208.114:8888" // 연구실
+//const val IP_ADDRESS = "210.204.197.234:8888"    // 카페
+private const val TAG = "Login"
 
 private lateinit var loginId: EditText
 private lateinit var loginPw: EditText

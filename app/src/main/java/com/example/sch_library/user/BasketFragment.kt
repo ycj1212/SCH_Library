@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +26,14 @@ class BasketFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_basket, container, false)
 
+        val orderButton: Button = view.findViewById(R.id.button_order_basket)
+        val deleteButton: Button = view.findViewById(R.id.button_delete_basket)
+        val totalPrice: TextView = view.findViewById(R.id.textview_total_price)
+        val checkAll: CheckBox = view.findViewById(R.id.checkbox_all)
+
         viewManager = LinearLayoutManager(context)
-        viewAdapter = ViewAdapter()
+        viewAdapter = ViewAdapter(2)
+        viewAdapter.addViewForBasket(orderButton, deleteButton, totalPrice, checkAll, view.context)
         for (i in 50 downTo 1) {
             viewAdapter.addItem(BookInfo(i, "책$i", i, i))
         }
@@ -40,6 +49,8 @@ class BasketFragment : Fragment() {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
+
+
 
         return view
     }
