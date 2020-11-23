@@ -10,9 +10,11 @@ import com.example.sch_library.LogoutFragment
 import com.example.sch_library.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class UserActivity : AppCompatActivity() {
-    lateinit var viewPager: ViewPager
-    lateinit var bottomNavigationView: BottomNavigationView
+class UserActivity : AppCompatActivity(), OnSetHomeViewAdapterListener {
+    private lateinit var viewPager: ViewPager
+    private lateinit var bottomNavigationView: BottomNavigationView
+
+    private lateinit var homeViewAdapter: HomeViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +25,10 @@ class UserActivity : AppCompatActivity() {
         val pw = intent.getStringExtra("pw")
         val name = intent.getStringExtra("name")
 
+        val fragmentInfoManage = InfoManageFragment()
+        val fragmentOrderDetails = OrderDetailsFragment()
         val fragmentHome = UserHomeFragment()
         val fragmentBasket = BasketFragment()
-        val fragmentInfoManage = InfoManageFragment()
         val fragmentLogout = LogoutFragment()
 
         val bundle = Bundle(3)
@@ -34,16 +37,18 @@ class UserActivity : AppCompatActivity() {
         bundle.putString("name", name)
         fragmentHome.arguments = bundle
         fragmentInfoManage.arguments = bundle
+        fragmentBasket.arguments = bundle
 
         val fm = supportFragmentManager
         val adapter = ViewPagerAdapter(fm)
+        adapter.addItem(fragmentInfoManage)
+        adapter.addItem(fragmentOrderDetails)
         adapter.addItem(fragmentHome)
         adapter.addItem(fragmentBasket)
-        adapter.addItem(fragmentInfoManage)
         adapter.addItem(fragmentLogout)
 
         viewPager = findViewById<ViewPager>(R.id.viewpager).apply {
-            offscreenPageLimit = 4
+            offscreenPageLimit = 5
             setAdapter(adapter)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
@@ -53,10 +58,11 @@ class UserActivity : AppCompatActivity() {
                 ) { }
                 override fun onPageSelected(position: Int) {
                     when (position) {
-                        0 -> bottomNavigationView.menu.findItem(R.id.menu_home).isChecked = true
-                        1 -> bottomNavigationView.menu.findItem(R.id.menu_basket).isChecked = true
-                        2 -> bottomNavigationView.menu.findItem(R.id.menu_info_manage).isChecked = true
-                        3 -> bottomNavigationView.menu.findItem(R.id.menu_logout).isChecked = true
+                        0 -> bottomNavigationView.menu.findItem(R.id.menu_info_manage).isChecked = true
+                        1 -> bottomNavigationView.menu.findItem(R.id.menu_order_details).isChecked = true
+                        2 -> bottomNavigationView.menu.findItem(R.id.menu_home).isChecked = true
+                        3 -> bottomNavigationView.menu.findItem(R.id.menu_basket).isChecked = true
+                        4 -> bottomNavigationView.menu.findItem(R.id.menu_logout).isChecked = true
                     }
                 }
                 override fun onPageScrollStateChanged(state: Int) { }
@@ -66,33 +72,51 @@ class UserActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottomnavigationview)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_home -> {
+                R.id.menu_info_manage -> {
                     viewPager.currentItem = 0
                     true
                 }
-                R.id.menu_basket -> {
+                R.id.menu_order_details -> {
                     viewPager.currentItem = 1
                     true
                 }
-                R.id.menu_info_manage -> {
+                R.id.menu_home -> {
                     viewPager.currentItem = 2
                     true
                 }
-                R.id.menu_logout -> {
+                R.id.menu_basket -> {
                     viewPager.currentItem = 3
+                    true
+                }
+                R.id.menu_logout -> {
+                    viewPager.currentItem = 4
                     true
                 }
                 else -> false
             }
         }
+
+        viewPager.currentItem = 2
+    }
+
+    override fun onSetHomeViewAdapter(viewAdapter: HomeViewAdapter) {
+        homeViewAdapter = viewAdapter
+    }
+
+    private fun updateHomeViewAdapter() {
+        if (homeViewAdapter.getSelectedCount() ==  0) {
+            viewPager.currentItem = 4
+        } else {
+            homeViewAdapter.clear()
+            homeViewAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onBackPressed() {
-        if (viewAdapter.getSelectedCount() == 0) {
-            viewPager.currentItem = 3
+        if (viewPager.currentItem == 2) {
+            updateHomeViewAdapter()
         } else {
-            viewAdapter.clear()
-            viewAdapter.notifyDataSetChanged()
+            viewPager.currentItem = 4
         }
     }
 
