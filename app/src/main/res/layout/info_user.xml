@@ -9,42 +9,25 @@
     android:background="@drawable/card_info_border"
     android:clickable="true">
 
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/booknumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="123123124"/>
-
-        <TextView
-            android:id="@+id/booktitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="책 제목입니다."/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/bookstock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="4"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="권 남음"/>
+                android:text="아이디: "/>
+            <TextView
+                android:id="@+id/textview_user_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ycj1212"/>
         </LinearLayout>
 
         <LinearLayout
@@ -52,35 +35,47 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/bookprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호: "/>
+            <TextView
+                android:id="@+id/textview_user_pw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="112323"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="원"/>
+                android:text="이름: "/>
+            <TextView
+                android:id="@+id/textview_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="112323"/>
         </LinearLayout>
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/button_decrease_count"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/ic_baseline_arrow_left_24"/>
-
-    <TextView
-        android:id="@+id/textview_count"
+    <Button
+        android:id="@+id/button_update_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="20sp"/>
+        android:text="수정"/>
 
-    <ImageButton
-        android:id="@+id/button_increase_count"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/ic_baseline_arrow_right_24"/>
+    <View
+        android:layout_width="10dp"
+        android:layout_height="0dp"/>
+
+    <Button
+        android:id="@+id/button_delete_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제"/>
 
 </LinearLayout>

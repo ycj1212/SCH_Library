@@ -108,6 +108,16 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button_withdrawal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="#00FFFFFF"
+            android:text="@string/withdrawal"
+            android:textColor="@android:color/black"/>
+
     </LinearLayout>
 
     <Button

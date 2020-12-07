@@ -11,8 +11,16 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/menu_purchace_history"
+        android:id="@+id/menu_user_management"
         android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="회원관리"
+        android:enabled="true"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_purchace_history"
+        android:icon="@drawable/ic_baseline_receipt_long_24"
         android:title="회원 별 구매 이력"
         android:enabled="true"
         android:visible="true"

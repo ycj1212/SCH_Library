@@ -39,20 +39,17 @@
         <TextView
             android:id="@+id/textview_house_zip_code"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="17345"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/textview_house_basic_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="경기도 평택시 팽성읍 안정순환로 32번길 35-4"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/textview_house_detail_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="상세 주소 입니다."/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -77,20 +74,17 @@
         <TextView
             android:id="@+id/textview_rectal_zip_code"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="17345"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/textview_rectal_basic_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="경기도 평택시 팽성읍 안정순환로 32번길 35-4"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/textview_rectal_detail_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="상세 주소 입니다."/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

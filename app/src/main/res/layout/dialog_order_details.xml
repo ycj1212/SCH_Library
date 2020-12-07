@@ -14,53 +14,17 @@
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
             android:paddingHorizontal="10dp"
-            android:text="주문 / 결제"
+            android:text="주문 내역"
             android:textSize="30sp"
             android:textColor="@color/purple_700" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginVertical="10dp"
             android:text="주소정보"
             android:textSize="20sp"
             android:textColor="@color/purple_700"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <RadioGroup
-                android:id="@+id/radiogroup_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginHorizontal="20dp">
-
-                <RadioButton
-                    android:id="@+id/radiobutton_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="집"/>
-
-                <RadioButton
-                    android:id="@+id/radiobutton_rectal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="직장"/>
-
-            </RadioGroup>
-
-            <Button
-                android:id="@+id/button_update_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="주소 수정"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,14 +38,12 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="우편번호"/>
 
-            <EditText
-                android:id="@+id/edittext_zip_code"
-                android:layout_width="120dp"
+            <TextView
+                android:id="@+id/textview_zip_code"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:background="@drawable/edittext_border"
-                android:inputType="text"
-                android:hint="우편번호"/>
+                android:text="우편번호"/>
 
         </LinearLayout>
 
@@ -98,15 +60,12 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="기본주소"/>
 
-            <EditText
-                android:id="@+id/edittext_basic_address"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textview_basic_address"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:padding="10dp"
-                android:background="@drawable/edittext_border"
-                android:inputType="text"
-                android:hint="기본주소"/>
+                android:text="기본주소"/>
 
         </LinearLayout>
 
@@ -122,15 +81,12 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="상세주소"/>
 
-            <EditText
-                android:id="@+id/edittext_detail_address"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textview_detail_address"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:padding="10dp"
-                android:background="@drawable/edittext_border"
-                android:inputType="text"
-                android:hint="상세주소"/>
+                android:text="상세주소"/>
 
         </LinearLayout>
 
@@ -144,7 +100,7 @@
             android:textColor="@color/purple_700"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_order"
+            android:id="@+id/recyclerview_order_books"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -153,32 +109,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:gravity="center_horizontal"
-            android:text=""/>
-
+            android:gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
             android:text="결제정보"
             android:textSize="20sp"
             android:textColor="@color/purple_700"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <Button
-                android:id="@+id/button_select_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="카드 선택"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -192,14 +132,12 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="카드종류"/>
 
-           <EditText
-                android:id="@+id/edittext_card_type"
-                android:layout_width="120dp"
+            <TextView
+                android:id="@+id/textview_card_type"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:background="@drawable/edittext_border"
-                android:inputType="text"
-                android:hint="카드종류"/>
+                android:text="카드종류"/>
 
         </LinearLayout>
 
@@ -216,15 +154,12 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="카드번호"/>
 
-            <EditText
-                android:id="@+id/edittext_card_number"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textview_card_number"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:padding="10dp"
-                android:background="@drawable/edittext_border"
-                android:inputType="number"
-                android:hint="'-' 제외"/>
+                android:text="카드번호"/>
 
         </LinearLayout>
 
@@ -240,27 +175,14 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="유효기간"/>
 
-            <EditText
-                android:id="@+id/edittext_card_expiration_date"
-                android:layout_width="120dp"
+            <TextView
+                android:id="@+id/textview_card_expiration_date"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:padding="10dp"
-                android:background="@drawable/edittext_border"
-                android:inputType="number"
-                android:hint="MM/YY"/>
+                android:text="유효기간"/>
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/button_pay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="@color/purple_700"
-            android:text="결제하기"
-            android:textSize="20sp"
-            android:textColor="#ffffffff"/>
 
     </LinearLayout>
 

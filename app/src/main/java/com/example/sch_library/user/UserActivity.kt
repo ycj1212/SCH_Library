@@ -10,34 +10,34 @@ import com.example.sch_library.LogoutFragment
 import com.example.sch_library.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+lateinit var fragmentInfoManage: InfoManageFragment
+lateinit var fragmentOrderDetails: OrderDetailsFragment
+lateinit var fragmentHome: UserHomeFragment
+lateinit var fragmentBasket: BasketFragment
+lateinit var fragmentLogout: LogoutFragment
+
+var userId = ""
+
 class UserActivity : AppCompatActivity(), OnSetHomeViewAdapterListener {
     private lateinit var viewPager: ViewPager
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    private lateinit var homeViewAdapter: HomeViewAdapter
+    private lateinit var homeViewAdapter: UserHomeFragment.HomeViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
         val intent = intent
-        val id = intent.getStringExtra("id")
+        userId = intent.getStringExtra("id")
         val pw = intent.getStringExtra("pw")
         val name = intent.getStringExtra("name")
 
-        val fragmentInfoManage = InfoManageFragment()
-        val fragmentOrderDetails = OrderDetailsFragment()
-        val fragmentHome = UserHomeFragment()
-        val fragmentBasket = BasketFragment()
-        val fragmentLogout = LogoutFragment()
-
-        val bundle = Bundle(3)
-        bundle.putString("id", id)
-        bundle.putString("pw", pw)
-        bundle.putString("name", name)
-        fragmentHome.arguments = bundle
-        fragmentInfoManage.arguments = bundle
-        fragmentBasket.arguments = bundle
+        fragmentInfoManage = InfoManageFragment()
+        fragmentOrderDetails = OrderDetailsFragment()
+        fragmentHome = UserHomeFragment()
+        fragmentBasket = BasketFragment()
+        fragmentLogout = LogoutFragment()
 
         val fm = supportFragmentManager
         val adapter = ViewPagerAdapter(fm)
@@ -99,7 +99,7 @@ class UserActivity : AppCompatActivity(), OnSetHomeViewAdapterListener {
         viewPager.currentItem = 2
     }
 
-    override fun onSetHomeViewAdapter(viewAdapter: HomeViewAdapter) {
+    override fun onSetHomeViewAdapter(viewAdapter: UserHomeFragment.HomeViewAdapter) {
         homeViewAdapter = viewAdapter
     }
 

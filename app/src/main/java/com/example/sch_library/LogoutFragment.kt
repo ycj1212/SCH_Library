@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 class LogoutFragment : Fragment() {
@@ -17,6 +18,7 @@ class LogoutFragment : Fragment() {
 
         val logoutButton: Button = view.findViewById(R.id.button_logout)
         logoutButton.setOnClickListener {
+            Toast.makeText(context, "로그아웃 완료!", Toast.LENGTH_LONG).show()
             activity?.finish()
         }
 

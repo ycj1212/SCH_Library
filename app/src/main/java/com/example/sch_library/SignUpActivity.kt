@@ -142,9 +142,7 @@ class SignUpActivity : AppCompatActivity() {
             if (result?.contains("PRIMARY")!!) {
                 inputId.text.clear()
                 inputId.setHintTextColor(Color.RED)
-            }
-
-            if (result != "회원가입 완료!") {
+            } else if (result == "회원가입 완료!") {
                 Toast.makeText(context, result, Toast.LENGTH_LONG).show()
 
                 activity.finish()

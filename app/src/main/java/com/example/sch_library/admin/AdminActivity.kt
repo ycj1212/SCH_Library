@@ -14,24 +14,32 @@ class AdminActivity : AppCompatActivity() {
     lateinit var viewPager: ViewPager
     lateinit var bottomNavigationView: BottomNavigationView
 
+    lateinit var fragmentHome: AdminHomeFragment
+    lateinit var fragmentPurchaseHistory: PurchaseHistoryFragment
+    lateinit var fragmentOrderStatus: OrderStatusFragment
+    lateinit var fragmentUserManagement: UserManagementFragment
+    lateinit var fragmentLogout: LogoutFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
-        val fragmentHome = AdminHomeFragment()
-        val fragmentPurchaseHistory = PurchaseHistoryFragment()
-        val fragmentOrderStatus = OrderStatusFragment()
-        val fragmentLogout = LogoutFragment()
+        fragmentHome = AdminHomeFragment()
+        fragmentPurchaseHistory = PurchaseHistoryFragment()
+        fragmentOrderStatus = OrderStatusFragment()
+        fragmentUserManagement = UserManagementFragment()
+        fragmentLogout = LogoutFragment()
 
         val fm = supportFragmentManager
         val adapter = ViewPagerAdapter(fm)
         adapter.addItem(fragmentHome)
+        adapter.addItem(fragmentUserManagement)
         adapter.addItem(fragmentPurchaseHistory)
         adapter.addItem(fragmentOrderStatus)
         adapter.addItem(fragmentLogout)
 
         viewPager = findViewById<ViewPager>(R.id.viewpager).apply {
-            offscreenPageLimit = 4
+            offscreenPageLimit = 5
             setAdapter(adapter)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
@@ -42,9 +50,10 @@ class AdminActivity : AppCompatActivity() {
                 override fun onPageSelected(position: Int) {
                     when (position) {
                         0 -> bottomNavigationView.menu.findItem(R.id.menu_home).isChecked = true
-                        1 -> bottomNavigationView.menu.findItem(R.id.menu_purchace_history).isChecked = true
-                        2 -> bottomNavigationView.menu.findItem(R.id.menu_order_status).isChecked = true
-                        3 -> bottomNavigationView.menu.findItem(R.id.menu_logout).isChecked = true
+                        1 -> bottomNavigationView.menu.findItem(R.id.menu_user_management).isChecked = true
+                        2 -> bottomNavigationView.menu.findItem(R.id.menu_purchace_history).isChecked = true
+                        3 -> bottomNavigationView.menu.findItem(R.id.menu_order_status).isChecked = true
+                        4 -> bottomNavigationView.menu.findItem(R.id.menu_logout).isChecked = true
                     }
                 }
                 override fun onPageScrollStateChanged(state: Int) { }
@@ -58,16 +67,20 @@ class AdminActivity : AppCompatActivity() {
                     viewPager.currentItem = 0
                     true
                 }
-                R.id.menu_purchace_history -> {
+                R.id.menu_user_management -> {
                     viewPager.currentItem = 1
                     true
                 }
-                R.id.menu_order_status -> {
+                R.id.menu_purchace_history -> {
                     viewPager.currentItem = 2
                     true
                 }
-                R.id.menu_logout -> {
+                R.id.menu_order_status -> {
                     viewPager.currentItem = 3
+                    true
+                }
+                R.id.menu_logout -> {
+                    viewPager.currentItem = 4
                     true
                 }
                 else -> false
@@ -75,12 +88,18 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onBackPressed() {
-        if (viewAdapter.getSelectedCount() == 0) {
-            viewPager.currentItem = 3
+        if (viewPager.currentItem == 0) {
+            if (fragmentHome.viewAdapter.getSelectedCount() == 0) {
+                viewPager.currentItem = 4
+            } else {
+                fragmentHome.viewAdapter.clear()
+                fragmentHome.viewAdapter.notifyDataSetChanged()
+            }
         } else {
-            viewAdapter.clear()
-            viewAdapter.notifyDataSetChanged()
+            viewPager.currentItem = 4
         }
     }
 

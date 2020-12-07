@@ -59,13 +59,13 @@
 
         <Button
             android:id="@+id/button_go_signup"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:background="@color/purple_700"
-            android:text="회원가입"
-            android:textSize="20sp"
-            android:textColor="#ffffffff"/>
+            android:layout_gravity="center"
+            android:background="#00FFFFFF"
+            android:text="@string/sign_up"
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 

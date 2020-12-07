@@ -30,6 +30,12 @@ class BasketFragment : Fragment() {
     private lateinit var viewAdapter: BasketViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    override fun onResume() {
+        super.onResume()
+
+        updateBasketList(userId)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,16 +43,13 @@ class BasketFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_basket, container, false)
 
-        val bundle = arguments
-        val id = bundle?.getString("id")
-
         val orderButton: Button = view.findViewById(R.id.button_order_basket)
         val deleteButton: Button = view.findViewById(R.id.button_delete_basket)
         val totalPrice: TextView = view.findViewById(R.id.textview_total_price)
         val checkAll: CheckBox = view.findViewById(R.id.checkbox_all)
 
         viewManager = LinearLayoutManager(context)
-        viewAdapter = BasketViewAdapter(context, id)
+        viewAdapter = BasketViewAdapter(userId)
         viewAdapter.addViewForBasket(orderButton, deleteButton, totalPrice, checkAll, view.context)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_basket).apply {
@@ -61,20 +64,38 @@ class BasketFragment : Fragment() {
             adapter = viewAdapter
         }
 
-        val task = UpdateBasketList()
-        task.execute(
-                "http://$IP_ADDRESS/select_book.php",
-                // 수량도 얻어야됨
-                "select * from 도서 where 도서번호 in (select 도서번호 from 장바구니담기 where 바구니번호 in (select 바구니번호 from 장바구니 where 아이디='$id'))"
-        )
+        updateBasketList(userId)
 
         return view
+    }
+
+    fun updateBasketList(id: String?) {
+        val task = UpdateBasketList()
+        task.execute(
+            "http://$IP_ADDRESS/select_book_basket.php",
+            "select a.도서번호, 도서명, 재고량, 판매가, 수량 from 도서 a, 장바구니담기 b where a.도서번호=b.도서번호 and b.바구니번호 in (select 바구니번호 from 장바구니 where 아이디='$id')"
+        )
+    }
+
+    fun deleteBasketContents() {
+        val task = UpdateBasketList()
+        task.execute(
+            "http://$IP_ADDRESS/delete_book.php",
+            "delete from 장바구니담기 where 바구니번호=(select 바구니번호 from 장바구니 where 아이디='$userId')"
+        )
+    }
+
+    fun deleteBasket() {
+        val task = UpdateBasketList()
+        task.execute(
+            "http://$IP_ADDRESS/delete_book.php",
+            "delete from 장바구니 where 아이디='$userId'"
+        )
     }
 
     inner class UpdateBasketList : AsyncTask<String, Void, String>() {
         override fun doInBackground(vararg p0: String?): String {
             val query = p0[1]
-
             val serverURL = p0[0]
             val postParameters = "query=$query"
 
@@ -140,8 +161,9 @@ class BasketFragment : Fragment() {
                         val bookTitle = item.getString("booktitle")
                         val stock = item.getString("stock")
                         val price = item.getString("price")
+                        val count = item.getString("count")
 
-                        viewAdapter.addItem(BookInfo(bookNumber.toInt(), bookTitle, stock.toInt(), price.toInt(), isSelected = true))
+                        viewAdapter.addItem(BookInfo(bookNumber.toInt(), bookTitle, stock.toInt(), price.toInt(), true, count.toInt()))
                     }
 
                     viewAdapter.notifyDataSetChanged()
@@ -151,152 +173,162 @@ class BasketFragment : Fragment() {
             }
         }
     }
-}
 
-class BasketViewAdapter(private val context: Context?, private val id: String?) : RecyclerView.Adapter<BasketViewAdapter.ViewHolder>() {
-    private var items = ArrayList<BookInfo>()
-    private var count = 0
+    inner class BasketViewAdapter(private val id: String?) : RecyclerView.Adapter<BasketViewAdapter.ViewHolder>() {
+        private var items = ArrayList<BookInfo>()
+        private var count = 0
 
-    private lateinit var deleteButton: Button
-    private lateinit var orderButton: Button
-    private lateinit var totalPrice: TextView
-    private lateinit var checkAll: CheckBox
+        private lateinit var deleteButton: Button
+        private lateinit var orderButton: Button
+        private lateinit var totalPrice: TextView
+        private lateinit var checkAll: CheckBox
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var bookNumber: TextView = itemView.findViewById(R.id.booknumber)
-        private var bookTitle: TextView = itemView.findViewById(R.id.booktitle)
-        private var bookStock: TextView = itemView.findViewById(R.id.bookstock)
-        private var bookPrice: TextView = itemView.findViewById(R.id.bookprice)
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private var bookNumber: TextView = itemView.findViewById(R.id.booknumber)
+            private var bookTitle: TextView = itemView.findViewById(R.id.booktitle)
+            private var bookStock: TextView = itemView.findViewById(R.id.bookstock)
+            private var bookPrice: TextView = itemView.findViewById(R.id.bookprice)
 
-        var checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
+            var checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
 
-        private var bookCount: TextView = itemView.findViewById(R.id.textview_count)
-        private var decreaseCountButton: ImageButton = itemView.findViewById(R.id.button_decrease_count)
-        private var increaseCountButton: ImageButton = itemView.findViewById(R.id.button_increase_count)
+            private var bookCount: TextView = itemView.findViewById(R.id.textview_count)
+            private var decreaseCountButton: ImageButton = itemView.findViewById(R.id.button_decrease_count)
+            private var increaseCountButton: ImageButton = itemView.findViewById(R.id.button_increase_count)
 
-        init {
-            decreaseCountButton.setOnClickListener {
-                if (items[adapterPosition].count > 1) {
-                    items[adapterPosition].count--
-                    bookCount.text = items[adapterPosition].count.toString()
-                    totalPrice.text = getTotalPrice()
+            init {
+                decreaseCountButton.setOnClickListener {
+                    if (items[adapterPosition].count > 1) {
+                        items[adapterPosition].count--
+                        bookCount.text = items[adapterPosition].count.toString()
+                        totalPrice.text = getTotalPrice()
+                    }
+                }
+
+                increaseCountButton.setOnClickListener {
+                    if (items[adapterPosition].count < items[adapterPosition].stock) {
+                        items[adapterPosition].count++
+                        bookCount.text = items[adapterPosition].count.toString()
+                        totalPrice.text = getTotalPrice()
+                    }
                 }
             }
 
-            increaseCountButton.setOnClickListener {
-                if (items[adapterPosition].count < items[adapterPosition].stock) {
-                    items[adapterPosition].count++
-                    bookCount.text = items[adapterPosition].count.toString()
-                    totalPrice.text = getTotalPrice()
-                }
+            fun setItem(item: BookInfo) {
+                bookNumber.text = item.number.toString()
+                bookTitle.text = item.title
+                bookStock.text = item.stock.toString()
+                bookPrice.text = item.price.toString()
+                bookCount.text = item.count.toString()
             }
         }
 
-        fun setItem(item: BookInfo) {
-            bookNumber.text = item.number.toString()
-            bookTitle.text = item.title
-            bookStock.text = item.stock.toString()
-            bookPrice.text = item.price.toString()
-            bookCount.text = item.count.toString()
-        }
-    }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val itemView = inflater.inflate(R.layout.info_book, parent, false)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val itemView = inflater.inflate(R.layout.info_book, parent, false)
-
-        return ViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.setItem(item)
-
-        item.isSelected = true
-        totalPrice.text = getTotalPrice()
-        holder.checkBox.isChecked = item.isSelected
-        holder.checkBox.setOnClickListener {
-            count = 0
-            item.isSelected = holder.checkBox.isChecked
-
-            for (item in items) {
-                if (item.isSelected) {
-                    count++
-                }
-            }
-
-            totalPrice.text = getTotalPrice()
-        }
-    }
-
-    override fun getItemCount(): Int = items.size
-
-    fun cleanItems() { items.clear() }
-
-    fun getTotalPrice(): String {
-        var sum = 0
-        for (item in items) {
-            if (item.isSelected) {
-                sum += item.price * item.count
-            }
-        }
-        return "총 $sum 원"
-    }
-
-    fun addItem(item: BookInfo) {
-        items.add(item)
-    }
-
-    fun addViewForBasket(orderButton: Button, deleteButton: Button, totalPrice: TextView, checkAll: CheckBox, context: Context) {
-        this.orderButton = orderButton
-        this.deleteButton = deleteButton
-        this.totalPrice = totalPrice
-        this.checkAll = checkAll
-
-        orderButton.setOnClickListener {
-            val intent = Intent(context, OrderActivity::class.java)
-            intent.putExtra("from", "basket")
-            val checkItems = ArrayList<BookInfo>()
-            for (item in items) {
-                if (item.isSelected) {
-                    checkItems.add(item)
-                }
-            }
-            intent.putExtra("basket", checkItems)
-            intent.putExtra("userid", id)
-            context.startActivity(intent)
+            return ViewHolder(itemView)
         }
 
-        deleteButton.setOnClickListener {
-            for (item in items) {
-                if (item.isSelected) {
-                    // db에도 삭제
-                    // "delete from 장바구니담기 where 도서번호=${item.number}"
-                    items.remove(item)
-                }
-            }
-            notifyDataSetChanged()
-        }
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val item = items[position]
+            holder.setItem(item)
 
-        checkAll.isChecked = true
-        checkAll.setOnClickListener {
-            if (checkAll.isChecked) {
-                count = items.size
+            holder.checkBox.isChecked = item.isSelected
+            holder.checkBox.setOnClickListener {
+                count = 0
+                item.isSelected = holder.checkBox.isChecked
+
                 for (item in items) {
-                    item.isSelected = true
+                    if (item.isSelected) {
+                        count++
+                    }
                 }
-            } else {
-                clear()
+
+                totalPrice.text = getTotalPrice()
             }
             totalPrice.text = getTotalPrice()
-            notifyDataSetChanged()
         }
-    }
 
-    fun clear() {
-        count = 0
-        for (item in items) {
-            item.isSelected = false
+        override fun getItemCount(): Int = items.size
+
+        fun cleanItems() {
+            items.clear()
+            totalPrice.text = getTotalPrice()
+        }
+
+        fun getTotalPrice(): String {
+            var sum = 0
+            for (item in items) {
+                if (item.isSelected) {
+                    sum += item.price * item.count
+                }
+            }
+            return "총 $sum 원"
+        }
+
+        fun addItem(item: BookInfo) {
+            items.add(item)
+        }
+
+        fun addViewForBasket(orderButton: Button, deleteButton: Button, totalPrice: TextView, checkAll: CheckBox, context: Context) {
+            this.orderButton = orderButton
+            this.deleteButton = deleteButton
+            this.totalPrice = totalPrice
+            this.checkAll = checkAll
+
+            orderButton.setOnClickListener {
+                val intent = Intent(context, OrderActivity::class.java)
+                intent.putExtra("from", "basket")
+                val checkItems = ArrayList<BookInfo>()
+                for (item in items) {
+                    if (item.isSelected) {
+                        checkItems.add(item)
+                    }
+                }
+                intent.putExtra("basket", checkItems)
+                intent.putExtra("userid", id)
+                context.startActivity(intent)
+            }
+
+            deleteButton.setOnClickListener {
+                var i = 0
+                while (i < items.size) {
+                    if (items[i].isSelected) {
+                        val task = UpdateBasketList()
+                        task.execute(
+                            "http://$IP_ADDRESS/delete_book.php",
+                            "delete from 장바구니담기 where 바구니번호=(select 바구니번호 from 장바구니 where 아이디='$id') and 도서번호=${items[i].number}"
+                        )
+                        items.removeAt(i)
+                        i--
+                    }
+                    i++
+                }
+                totalPrice.text = getTotalPrice()
+                notifyDataSetChanged()
+                Toast.makeText(context, "삭제 완료!", Toast.LENGTH_LONG).show()
+            }
+
+            checkAll.isChecked = true
+            checkAll.setOnClickListener {
+                if (checkAll.isChecked) {
+                    count = items.size
+                    for (item in items) {
+                        item.isSelected = true
+                    }
+                } else {
+                    clear()
+                }
+                totalPrice.text = getTotalPrice()
+                notifyDataSetChanged()
+            }
+        }
+
+        private fun clear() {
+            count = 0
+            for (item in items) {
+                item.isSelected = false
+            }
         }
     }
 }

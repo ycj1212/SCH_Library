@@ -28,4 +28,26 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <TextView
+        android:id="@+id/textview_no_card_cardlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:text="카드가 없습니다."
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_cardlist"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_add_card_cardlist"/>
+
+    <Button
+        android:id="@+id/button_add_card_cardlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카드추가"
+        app:layout_constraintTop_toBottomOf="@id/textview_no_card_cardlist"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
