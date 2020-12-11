@@ -197,16 +197,33 @@ class AdminHomeFragment : Fragment() {
 
         fun getSelectedCount() = count
         fun deleteSelectedItems() {
-            for (i in 0 until items.size) {
+            var i = 0
+            while (i < items.size) {
                 if (items[i].isSelected) {
                     DeleteBookNumber().execute(
                         "http://$IP_ADDRESS/delete_booknumber.php",
                         items[i].number.toString()
                     )
+                    items.removeAt(i)
+                    i--
                 }
+                i++
             }
+            count = 0
+
+            for (item in items) {
+                item.isSelected = false
+            }
+
+            addButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.GONE
         }
-        fun cleanItems() { items.clear() }
+        fun cleanItems() {
+            items.clear()
+            count = 0
+            addButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.GONE
+        }
         fun addItem(item: BookInfo) {
             items.add(item)
         }

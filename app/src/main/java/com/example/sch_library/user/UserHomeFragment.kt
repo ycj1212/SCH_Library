@@ -212,14 +212,14 @@ class UserHomeFragment : Fragment() {
 
                 }
                 result == "empty" -> {
-                    viewAdapter.cleanItems()
+                    viewAdapter.clear()
                     viewAdapter.notifyDataSetChanged()
                 }
                 else -> {
                     try {
                         val jsonObject = JSONObject(result)
                         val jsonArray = jsonObject.getJSONArray("result")
-                        viewAdapter.cleanItems()
+                        viewAdapter.clear()
 
                         for (i in 0 until jsonArray.length()) {
                             val item = jsonArray.getJSONObject(i);
@@ -328,8 +328,8 @@ class UserHomeFragment : Fragment() {
         override fun getItemCount(): Int = items.size
         fun getSelectedCount(): Int = count
         fun addItem(item: BookInfo) { items.add(item) }
-        fun cleanItems() { items.clear() }
         fun clear() {
+            items.clear()
             count = 0
             for (item in items) {
                 item.isSelected = false
@@ -412,6 +412,7 @@ class UserHomeFragment : Fragment() {
                 Handler().postDelayed({
                     fragmentBasket.updateBasketList(id)
                 }, 500)
+                dismiss()
             }
 
             val orderButton: Button = findViewById(R.id.button_order)

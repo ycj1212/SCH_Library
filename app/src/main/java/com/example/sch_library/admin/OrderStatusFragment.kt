@@ -159,6 +159,7 @@ class OrderStatusFragment : Fragment() {
         lateinit var cardType: TextView
         lateinit var cardNumber: TextView
         lateinit var cardExpirationDate: TextView
+        lateinit var deleteButton: Button
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -197,6 +198,8 @@ class OrderStatusFragment : Fragment() {
             cardType = findViewById(R.id.textview_card_type)
             cardNumber = findViewById(R.id.textview_card_number)
             cardExpirationDate = findViewById(R.id.textview_card_expiration_date)
+            deleteButton = findViewById(R.id.button_delete_order_details)
+            deleteButton.visibility = View.VISIBLE
 
             zipCode.text = item.addressInfo.zipCode
             basicAddress.text = item.addressInfo.basicAddress
@@ -205,6 +208,14 @@ class OrderStatusFragment : Fragment() {
             cardType.text = item.cardInfo.type
             cardNumber.text = item.cardInfo.number
             cardExpirationDate.text = item.cardInfo.expiration_date
+
+            deleteButton.setOnClickListener {
+                OrderCancel().execute(
+                    "http://$IP_ADDRESS/order_cancel.php",
+                    item.orderNumber
+                )
+                dismiss()
+            }
         }
 
         override fun onBackPressed() {
@@ -438,6 +449,64 @@ class OrderStatusFragment : Fragment() {
                         }
                     } catch (e: JSONException) { }
                 }
+            }
+        }
+    }
+
+    inner class OrderCancel : AsyncTask<String, Void, String>() {
+        override fun doInBackground(vararg p0: String?): String {
+            val orderNumber = p0[1]
+
+            val serverURL = p0[0]
+            val postParameters = "ordernumber=$orderNumber"
+
+            try {
+                val url = URL(serverURL)
+                val httpURLConnection = url.openConnection() as HttpURLConnection
+                httpURLConnection.apply {
+                    readTimeout = 5000
+                    connectTimeout = 5000
+                    requestMethod = "POST"
+                    connect()
+                }
+
+                val outputStream = httpURLConnection.outputStream
+                outputStream.apply {
+                    write(postParameters.toByteArray())
+                    flush()
+                    close()
+                }
+
+                val responseStatusCode = httpURLConnection.responseCode
+
+                val inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+
+                val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+                val sb = StringBuilder()
+                var line: String? = null
+
+                line = bufferedReader.readLine()
+                while (line != null) {
+                    sb.append(line)
+                    line = bufferedReader.readLine()
+                }
+                bufferedReader.close()
+
+                return sb.toString()
+            } catch (e: Exception) {
+                return "Error: ${e.message}"
+            }
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+
+            if (result == "성공") {
+                updateOrderStatus()
             }
         }
     }

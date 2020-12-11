@@ -184,6 +184,16 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button_delete_order_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/purple_700"
+            android:visibility="gone"
+            android:text="삭제하기"
+            android:textSize="20sp"/>
+
     </LinearLayout>
 
 </ScrollView>

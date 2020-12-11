@@ -114,7 +114,7 @@ class OrderDetailsFragment : Fragment() {
                             builder.setTitle("주문 기록 삭제").setMessage("주문 기록을 삭제하시겠습니까?")
                             builder.setPositiveButton("네") { dialog, id ->
                                 OrderCancel().execute(
-                                    "http://$IP_ADDRESS/order_cancel.php",
+                                    "http://$IP_ADDRESS/delete_order.php",
                                     item.orderNumber
                                 )
 
